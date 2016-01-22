@@ -123,6 +123,19 @@ class Client
         return $this->load('discussions', $id);
     }
 
+
+    /**
+     * Creates a first discussion with the authenticated user as actor.
+     *
+     * @param $title
+     * @param $content
+     * @return array
+     */
+    public function createDiscussion($title, $content)
+    {
+        return $this->create('discussions', compact('title', 'content'));
+    }
+
     /**
      * Creates a new tag.
      *
