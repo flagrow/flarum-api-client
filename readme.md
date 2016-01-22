@@ -24,7 +24,8 @@ In order to start working with the client you might need a Flarum master key:
 
 1. Generate a 40 character random, unguessable string, this is the Token needed for this package.
 2. Manually add it to the `api_keys` table using phpmyadmin/adminer or another solution.
----
+
+### examples
 
 A basic example:
 
