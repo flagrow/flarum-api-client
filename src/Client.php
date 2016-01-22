@@ -137,4 +137,20 @@ class Client
     {
         return $this->create('tags', compact('name', 'slug', 'description', 'color', 'isHidden'));
     }
+
+    /**
+     * Registers a user.
+     *
+     * @info this requires an admin user.
+     *
+     * @param      $username
+     * @param      $password
+     * @param      $email
+     * @param null $token
+     * @return array
+     */
+    public function registerUser($username, $password, $email, $token = null)
+    {
+        return $this->create('users', compact('username', 'password', 'email', 'token'));
+    }
 }
