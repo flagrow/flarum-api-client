@@ -67,8 +67,7 @@ class Client
         /** @var \Psr\Http\Message\ResponseInterface $result */
         $result = $this->guzzle->{$method}($url, $options);
 
-        switch($result->getStatusCode())
-        {
+        switch ($result->getStatusCode()) {
             case 200:
             case 201:
                 return json_decode($result->getBody(), true);
