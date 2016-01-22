@@ -31,20 +31,22 @@ class Client
      *
      * @param string $apiUrl
      * @param null   $token
+     * @param array  $options
      */
-    public function __construct($apiUrl = 'https://discuss.flarum.org/api/', $token = null)
+    public function __construct($apiUrl = 'https://discuss.flarum.org/api/', $token = null, $options = [])
     {
 
-        $options = [
+        $options = array_merge([
             'base_uri' => $apiUrl,
             'headers'  => [
-                'User-Agent' => 'Flagrow/Flarum/Api/Client',
-                'Accept'     => 'application/json'
+                'User-Agent'   => 'Flagrow/Flarum/Api/Client',
+                'Accept'       => 'application/json',
+                'Content-Type' => 'application/json',
             ]
-        ];
+        ], $options);
 
         if (!empty($token)) {
-            $options['auth'] = 'token ' . $token;
+            $options['headers']['Authorization'] = 'Token ' . $token;
         }
 
         $this->guzzle = new Guzzle($options);
@@ -66,19 +68,24 @@ class Client
     /**
      * Creates a new tag.
      *
-     * @param $name
-     * @param $slug
+     * @param        $name
+     * @param        $slug
+     * @param string $description
+     * @param string $color
+     * @param bool   $isHidden
      * @return array
      */
-    public function createTag($name, $slug)
+    public function createTag($name, $slug, $description = '', $color = '', $isHidden = false)
     {
         $result = $this->guzzle->post('tags', [
             'json' => [
-                'data' => compact('name', 'slug')
+                'data' => [
+                    'type' => 'tags',
+                    'attributes' => compact('name', 'slug', 'description', 'color', 'isHidden')
+                ]
             ]
         ]);
-
-        return json_decode($result);
+        return json_decode($result->getBody(), true);
     }
 
 }
