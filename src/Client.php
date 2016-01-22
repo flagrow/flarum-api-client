@@ -62,6 +62,57 @@ class Client
         $this->guzzle = new Guzzle($options);
     }
 
+    protected function request($method = 'get', $url, $options = [])
+    {
+        /** @var \Psr\Http\Message\ResponseInterface $result */
+        $result = $this->guzzle->{$method}($url, $options);
+
+        switch($result->getStatusCode())
+        {
+            case 200:
+            case 201:
+                return json_decode($result->getBody(), true);
+                break;
+        }
+
+        // let's keep this debugger friend here for now
+        // mark as @todo
+        dd($result->getStatusCode());
+    }
+
+    /**
+     * Loads one or a set of the specified type.
+     *
+     * @param       $type
+     * @param null  $id
+     * @param array $options
+     * @return mixed
+     */
+    public function load($type, $id = null, $options = [])
+    {
+        return $this->request('get', $type . ($id ? '/' . $id : null), $options);
+    }
+
+    /**
+     * Creates an object of the specified type.
+     *
+     * @param       $type
+     * @param array $attributes
+     * @param array $options
+     * @return mixed
+     */
+    public function create($type, $attributes = [], $options = [])
+    {
+        return $this->request('post', $type, [
+            'json' => [
+                'data' => [
+                    'type'       => $type,
+                    'attributes' => $attributes
+                ]
+            ]
+        ]);
+    }
+
     /**
      * Loads a subset of discussions or an Id.
      *
@@ -70,9 +121,7 @@ class Client
      */
     public function discussions($id = null)
     {
-        $result = $this->guzzle->get('discussions' . ($id ? '/' . $id : null));
-
-        return json_decode($result->getBody(), true);
+        return $this->load('discussions', $id);
     }
 
     /**
@@ -87,14 +136,6 @@ class Client
      */
     public function createTag($name, $slug, $description = '', $color = '', $isHidden = false)
     {
-        $result = $this->guzzle->post('tags', [
-            'json' => [
-                'data' => [
-                    'type' => 'tags',
-                    'attributes' => compact('name', 'slug', 'description', 'color', 'isHidden')
-                ]
-            ]
-        ]);
-        return json_decode($result->getBody(), true);
+        return $this->create('tags', compact('name', 'slug', 'description', 'color', 'isHidden'));
     }
 }
