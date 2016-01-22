@@ -13,10 +13,9 @@
 
 namespace Flagrow\Flarum\Api\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Flagrow\Flarum\Api\Client;
 
-class DiscussionsTest extends PHPUnit_Framework_TestCase
+class DiscussionsTest extends TestCase
 {
     public function testGetWelcome()
     {

@@ -34,5 +34,10 @@
         "psr-4": {
             "Flagrow\\Flarum\\Api\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flagrow\\Flarum\\Api\\Tests\\": "tests/stub"
+        }
     }
 }

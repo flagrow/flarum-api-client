@@ -97,19 +97,42 @@ class Client
      *
      * @param       $type
      * @param array $attributes
+     * @param array $relations
      * @param array $options
      * @return mixed
      */
-    public function create($type, $attributes = [], $options = [])
+    public function create($type, $attributes = [], $relations = [], $options = [])
     {
-        return $this->request('post', $type, [
+        return $this->request('post', $type, array_merge($options, [
             'json' => [
                 'data' => [
-                    'type'       => $type,
-                    'attributes' => $attributes
+                    'type'          => $type,
+                    'attributes'    => $attributes,
+                    'relationships' => $this->parseRelationships($relations)
                 ]
             ]
-        ]);
+        ]));
+    }
+
+    /**
+     * @param       $type
+     * @param       $id
+     * @param array $attributes
+     * @param array $relations
+     * @param array $options
+     * @return mixed
+     */
+    public function update($type, $id, $attributes = [], $relations = [], $options = [])
+    {
+        return $this->request('patch', $type . '/' . $id, array_merge($options, [
+            'json' => [
+                'data' => [
+                    'type'          => $type,
+                    'attributes'    => $attributes,
+                    'relationships' => $this->parseRelationships($relations)
+                ]
+            ]
+        ]));
     }
 
     /**
@@ -166,4 +189,38 @@ class Client
     {
         return $this->create('users', compact('username', 'password', 'email', 'token'));
     }
+
+    /**
+     * @param       $userId
+     * @param array $groups
+     * @return mixed
+     */
+    public function setUserGroups($userId, $groups = [])
+    {
+        array_walk($groups, function (&$group) {
+            $group = ['id' => $group];
+        });
+        return $this->update('users', $userId, [], [
+            'groups' => $groups
+        ]);
+    }
+
+    /**
+     * @param array $relations
+     * @return array
+     */
+    protected function parseRelationships($relations = [])
+    {
+        if (empty($relations)) {
+            return $relations;
+        }
+        foreach ($relations as $type => &$relation) {
+            $relation = [
+                'data' => $relation
+            ];
+        }
+
+        return $relations;
+    }
+
 }

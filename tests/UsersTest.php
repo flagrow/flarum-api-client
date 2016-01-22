@@ -13,24 +13,26 @@
 
 namespace Flagrow\Flarum\Api\Tests;
 
-use PHPUnit_Framework_TestCase;
-use Flagrow\Flarum\Api\Client;
-
-class UsersTest extends PHPUnit_Framework_TestCase
+class UsersTest extends TestCase
 {
+
+
     public function testGetFirst()
     {
-        $response = (new Client())->load('users', 1);
+        $response = $this->client->load('users', 1);
 
         $this->assertEquals(1, array_get($response, 'data.id'));
     }
 
     public function testCreate()
     {
-        $response = (new Client(
-            'http://flarum.app/api/',
-            'T(soY(ue4@Ku$vW9Wp7gBbci+Z+T#JHj>9]-!z}s; userId=1'
-        ))->registerUser('test_' . mt_rand(100, 999), 'test_' . mt_rand(100, 999), 'some@example.com');
+        $response = $this->client->registerUser('test_' . mt_rand(100, 999), 'test_' . mt_rand(100, 999), mt_rand(100, 999) . '@example.com');
         $this->assertNotNull(array_get($response, 'data.attributes'));
+    }
+
+    public function testSetUserGroups()
+    {
+        $response = $this->client->setUserGroups(2, [4]);
+        dd($response);
     }
 }

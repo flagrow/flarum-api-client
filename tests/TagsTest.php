@@ -13,10 +13,9 @@
 
 namespace Flagrow\Flarum\Api\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Flagrow\Flarum\Api\Client;
 
-class TagsTest extends PHPUnit_Framework_TestCase
+class TagsTest extends TestCase
 {
     /**
      * @expectedException \GuzzleHttp\Exception\ClientException
@@ -28,10 +27,7 @@ class TagsTest extends PHPUnit_Framework_TestCase
 
     public function testAuthorizedCreation()
     {
-        $response = (new Client(
-            'http://flarum.app/api/',
-            'T(soY(ue4@Ku$vW9Wp7gBbci+Z+T#JHj>9]-!z}s; userId=1'
-        ))->createTag('test_' . mt_rand(100, 999), 'test_' . mt_rand(100, 999));
+        $response = $this->client->createTag('test_' . mt_rand(100, 999), 'test_' . mt_rand(100, 999));
         $this->assertNotNull(array_get($response, 'data.attributes'));
     }
 }
