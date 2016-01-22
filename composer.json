@@ -19,7 +19,8 @@
         "source": "https://github.com/flagrow/flarum-api-client"
     },
     "require": {
-        "guzzlehttp/guzzle": "^6.1.1"
+        "guzzlehttp/guzzle": "^6.1.1",
+        "illuminate/support": "^5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.1.4"

@@ -9,6 +9,8 @@ class DiscussionTest extends PHPUnit_Framework_TestCase
 {
     public function testGetWelcome()
     {
-        var_dump((new Client())->discussions(3));
+        $response = (new Client())->discussions(3);
+
+        $this->assertEquals(3, array_get($response, 'data.id'));
     }
 }

@@ -51,7 +51,7 @@ class Client
     }
 
     /**
-     * Loads a subset of discussions or an Id
+     * Loads a subset of discussions or an Id.
      *
      * @param null $id
      * @return array
@@ -63,5 +63,22 @@ class Client
         return json_decode($result->getBody(), true);
     }
 
+    /**
+     * Creates a new tag.
+     *
+     * @param $name
+     * @param $slug
+     * @return array
+     */
+    public function createTag($name, $slug)
+    {
+        $result = $this->guzzle->post('tags', [
+            'json' => [
+                'data' => compact('name', 'slug')
+            ]
+        ]);
+
+        return json_decode($result);
+    }
 
 }
