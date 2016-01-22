@@ -222,5 +222,4 @@ class Client
 
         return $relations;
     }
-
 }
