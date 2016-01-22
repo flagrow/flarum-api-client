@@ -8,7 +8,7 @@ This is a generic PHP API client for use in any project. You can simply include 
 
 - Improve coverage of all functionality in Flarum.
 
-For this package we will implement new calls based on your requests. Please submit them in the [issue tracker on Github][https://github.com/flagrow/flarum-api-client/issues].
+For this package we will implement new calls based on your requests. Please submit them in the [issue tracker on Github](https://github.com/flagrow/flarum-api-client/issues).
 
 For a complete overview of our releases, please visit the [milestones tracker](https://github.com/flagrow/flarum-api-client/milestones) on Github.
 
