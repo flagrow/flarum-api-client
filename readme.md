@@ -33,7 +33,7 @@ $discussion = $api->discussions(1);
 An authorized example:
 
 ```php
-$api = new Flagrow\Flarum\Api\Client('http://example.com/api/', 'randomtoken);
+$api = new Flagrow\Flarum\Api\Client('http://example.com/api/', 'randomtoken');
 // generate a new tag for your Example.com forum:
 $tag = $api->createTag('Amazing Title', 'amazing-slug');
 ```
