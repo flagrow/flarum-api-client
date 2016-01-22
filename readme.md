@@ -20,7 +20,11 @@ composer require flagrow/flarum-api-client
 
 ### configuration
 
-In order to start working with the client you might need a [Flarum master key](https://discuss.flarum.org/d/1871-bypassing-flood-control/3).
+In order to start working with the client you might need a Flarum master key:
+
+1. Generate a 40 character random, unguessable string, this is the Token needed for this package.
+2. Manually add it to the `api_keys` table using phpmyadmin/adminer or another solution.
+---
 
 A basic example:
 
@@ -33,10 +37,12 @@ $discussion = $api->discussions(1);
 An authorized example:
 
 ```php
-$api = new Flagrow\Flarum\Api\Client('http://example.com/api/', 'randomtoken');
+$api = new Flagrow\Flarum\Api\Client('http://example.com/api/', 'randomtoken; userId=1');
 // generate a new tag for your Example.com forum:
 $tag = $api->createTag('Amazing Title', 'amazing-slug');
 ```
+
+> The userId refers to a user that has admin permissions or the user you want to run actions for. Appending the userId setting to the token only works for Master keys.
 
 ### links
 
