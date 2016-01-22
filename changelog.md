@@ -1,5 +1,10 @@
 # Changelog flagrow/flarum-php-client
 
+### 0.1.2
+
+- generic patch method
+- patch method for changing user group added (issue #7)
+
 ### 0.1.1
 
 - made the client more generic, added a load and create method that can handle any type
