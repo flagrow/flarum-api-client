@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of flagrow/flarum-api-client.
+ *
+ * Copyright (c) Flagrow.
+ *
+ * http://flagrow.github.io
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
 namespace Flagrow\Flarum\Api;
 
 use GuzzleHttp\Client as Guzzle;
@@ -35,7 +46,6 @@ class Client
      */
     public function __construct($apiUrl = 'https://discuss.flarum.org/api/', $token = null, $options = [])
     {
-
         $options = array_merge([
             'base_uri' => $apiUrl,
             'headers'  => [
@@ -87,5 +97,4 @@ class Client
         ]);
         return json_decode($result->getBody(), true);
     }
-
 }
