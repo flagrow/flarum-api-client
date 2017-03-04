@@ -1,5 +1,15 @@
 # Changelog flagrow/flarum-php-client
 
+### 0.2.0-beta.2
+
+- Allowing easier retrieval on resource items.
+- Fixed issue with keys on relationships.
+
+### 0.2.0-beta.1
+
+- Completely rewritten.
+- Implemented Fluent building of REST queries.
+
 ### 0.1.2
 
 - generic patch method
