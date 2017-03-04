@@ -5,10 +5,6 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Matteo Pompili",
-            "email": "matpompili@gmail.com"
-        },
-        {
             "name": "Daniël Klabbers",
             "email": "daniel+flarum@klabbers.email",
             "homepage": "http://hyn.io"
@@ -19,15 +15,14 @@
         "source": "https://github.com/flagrow/flarum-api-client"
     },
     "require": {
+        "php": "^5.4 || ^7.0",
         "guzzlehttp/guzzle": "^6.1.1",
-        "illuminate/support": "^5.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.1.4"
+        "illuminate/support": "^5.1",
+        "flarum/core": "^0.1.0-beta.6"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.2.x-dev"
         }
     },
     "autoload": {
