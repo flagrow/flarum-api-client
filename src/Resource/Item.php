@@ -88,12 +88,12 @@ class Item extends Resource
      */
     function __get($name)
     {
-        if (in_array($name, $this->attributes, true)) {
-            return $this->attributes[$name];
+        if (Arr::has($this->attributes, $name)) {
+            return Arr::get($this->attributes, $name);
         }
 
-        if (in_array($name, $this->relationships, true)) {
-            return $this->relationships[$name];
+        if (Arr::has($this->relationships, $name)) {
+            return Arr::get($this->relationships, $name);
         }
     }
 }
