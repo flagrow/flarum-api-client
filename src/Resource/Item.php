@@ -89,5 +89,9 @@ class Item extends Resource
         if (in_array($name, $this->attributes)) {
             return $this->attributes[$name];
         }
+
+        if (in_array($name, $this->relationships)) {
+            return $this->relationships[$name];
+        }
     }
 }
