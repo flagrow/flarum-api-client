@@ -64,9 +64,10 @@ class Item extends Resource
                 $this->relationships[$attribute] = [];
 
                 foreach ($data as $item) {
-                    $this->relationships[$attribute][Arr::get($data, 'id')] = $this->parseRelationshipItem(
+                    $id = (int) Arr::get($item, 'id');
+                    $this->relationships[$attribute][$id] = $this->parseRelationshipItem(
                         Arr::get($item, 'type'),
-                        Arr::get($item, 'id')
+                        $id
                     );
                 }
             }
