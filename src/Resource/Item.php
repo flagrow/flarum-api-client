@@ -2,7 +2,6 @@
 
 namespace Flagrow\Flarum\Api\Resource;
 
-use Flagrow\Flarum\Api\Cache;
 use Flagrow\Flarum\Api\Flarum;
 use Illuminate\Support\Arr;
 
@@ -84,13 +83,16 @@ class Item extends Resource
         return Flarum::getCache()->get($id, null, $type);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     function __get($name)
     {
-        if (in_array($name, $this->attributes)) {
+        if (in_array($name, $this->attributes, true)) {
             return $this->attributes[$name];
         }
 
-        if (in_array($name, $this->relationships)) {
+        if (in_array($name, $this->relationships, true)) {
             return $this->relationships[$name];
         }
     }
