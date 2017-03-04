@@ -91,7 +91,7 @@ class Flarum
         $token = Arr::get($authorization, 'token');
 
         if ($token) {
-            Arr::set($headers, 'Authorization', "Bearer $token");
+            Arr::set($headers, 'Authorization', "$token");
         }
 
         return $headers;
