@@ -78,7 +78,7 @@ class Fluent
      */
     public function setMethod(string $method): Fluent
     {
-        $this->method = $method;
+        $this->method = strtolower($method);
 
         return $this;
     }
@@ -140,6 +140,18 @@ class Fluent
         return $this;
     }
 
+    /**
+     * @param int $number
+     * @return Fluent
+     */
+    public function offset(int $number): Fluent
+    {
+        return $this->handlePagination('page[offset]', $number);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     function __toString()
     {
         $path = implode('/', $this->segments);
@@ -182,6 +194,10 @@ class Fluent
 
         if (in_array($name, $this->pagination) && count($arguments) === 1) {
             return call_user_func_array([$this, 'handlePagination'], array_prepend($arguments, $name));
+        }
+
+        if (method_exists($this->flarum, $name)) {
+            return call_user_func_array([$this->flarum, $name], $arguments);
         }
     }
 }
