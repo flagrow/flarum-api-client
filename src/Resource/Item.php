@@ -83,4 +83,11 @@ class Item extends Resource
     {
         return Flarum::getCache()->get($id, null, $type);
     }
+
+    function __get($name)
+    {
+        if (in_array($name, $this->attributes)) {
+            return $this->attributes[$name];
+        }
+    }
 }
