@@ -4,14 +4,6 @@
 
 This is a generic PHP API client for use in any project. You can simply include this package as a dependency to your project to use it.
 
-### goals
-
-- Improve coverage of all functionality in Flarum.
-
-For this package we will implement new calls based on your requests. Please submit them in the [issue tracker on Github](https://github.com/flagrow/flarum-api-client/issues).
-
-For a complete overview of our releases, please visit the [milestones tracker](https://github.com/flagrow/flarum-api-client/milestones) on Github.
-
 ### installation
 
 ```bash
@@ -25,22 +17,34 @@ In order to start working with the client you might need a Flarum master key:
 1. Generate a 40 character random, unguessable string, this is the Token needed for this package.
 2. Manually add it to the `api_keys` table using phpmyadmin/adminer or another solution.
 
+The master key is required to access non-public discussions and running actions otherwise reserved for
+Flarum administrators.
+
 ### examples
 
 A basic example:
 
 ```php
-$api = new Flagrow\Flarum\Api\Client('http://example.com/api/');
-// load the first discussion of your Example.com forum:
-$discussion = $api->discussions(1);
+<?php
+
+require_once "vendor/autoload.php";
+
+use Flagrow\Flarum\Api\Flarum;
+
+$api = new Flarum('http://example.com');
+
+// A collection of discussions from the first page of your Forum index.
+$discussions = $api->discussions()->request();
+// Read a specific discussion.
+$discussion = $api->discussion(1)->request();
+// Read the first page of users.
+$users = $api->users()->request();
 ```
 
 An authorized example:
 
 ```php
-$api = new Flagrow\Flarum\Api\Client('http://example.com/api/', 'randomtoken; userId=1');
-// generate a new tag for your Example.com forum:
-$tag = $api->createTag('Amazing Title', 'amazing-slug');
+$api = Flarum('http://example.com', ['token' => '<insert-master-token>; userId=1']);
 ```
 
 > The userId refers to a user that has admin permissions or the user you want to run actions for. Appending the userId setting to the token only works for Master keys.
@@ -51,7 +55,5 @@ $tag = $api->createTag('Amazing Title', 'amazing-slug');
 - [on packagist](http://packagist.com/packages/flagrow/flarum-api-client)
 - [issues](https://github.com/flagrow/flarum-api-client/issues)
 - [changelog](https://github.com/flagrow/flarum-api-client/changelog.md)
-- [flagrow extensions](https://github.com/flagrow?utf8=%E2%9C%93&query=flarum-ext-)
-- [flagrow group information](http://flagrow.github.io/)
 
 > Flagrow is a collaboration of Flarum extension developers to provide quality, maintained extensions.
