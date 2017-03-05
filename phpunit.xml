@@ -15,4 +15,7 @@
             <directory>./tests/unit/</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="FLARUM_HOST_TESTING" value="http://flarum.dev"/>
+    </php>
 </phpunit>

@@ -21,6 +21,18 @@ class Flarum
     protected $fluent;
 
     /**
+     * @var bool
+     */
+    protected $authorized = false;
+
+    /**
+     * Whether to enforce specific markup/variables setting.
+     *
+     * @var bool
+     */
+    protected $strict = true;
+
+    /**
      * @var Cache
      */
     protected static $cache;
@@ -91,6 +103,7 @@ class Flarum
         $token = Arr::get($authorization, 'token');
 
         if ($token) {
+            $this->authorized = true;
             Arr::set($headers, 'Authorization', "$token");
         }
 
@@ -129,5 +142,31 @@ class Flarum
     public function getFluent(): Fluent
     {
         return $this->fluent;
+    }
+
+    /**
+     * @param bool $strict
+     * @return Flarum
+     */
+    public function setStrict(bool $strict): Flarum
+    {
+        $this->strict = $strict;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStrict(): bool
+    {
+        return $this->strict;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAuthorized(): bool
+    {
+        return $this->authorized;
     }
 }

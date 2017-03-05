@@ -2,6 +2,8 @@
 
 namespace Flagrow\Flarum\Api;
 
+use Flagrow\Flarum\Api\Exceptions\UnauthorizedRequestMethodException;
+
 class Fluent
 {
     /**
@@ -16,6 +18,10 @@ class Fluent
         'get', 'head',
         'post', 'put', 'patch',
         'delete'
+    ];
+
+    protected $methodsRequiringAuthorization = [
+        'post', 'put', 'patch', 'delete'
     ];
 
     /**
@@ -75,10 +81,18 @@ class Fluent
     /**
      * @param string $method
      * @return Fluent
+     * @throws UnauthorizedRequestMethodException
      */
     public function setMethod(string $method): Fluent
     {
         $this->method = strtolower($method);
+
+        if (
+            $this->flarum->isStrict() &&
+            !$this->flarum->isAuthorized() &&
+            in_array($this->method, $this->methodsRequiringAuthorization)) {
+            throw new UnauthorizedRequestMethodException($this->method);
+        }
 
         return $this;
     }

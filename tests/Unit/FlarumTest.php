@@ -37,12 +37,21 @@ class FlarumTest extends TestCase
         /** @var Item $item */
         $item = $this->flarum->discussions()->id($discussion->id)->request();
 
-        $this->assertEquals($discussion->id, $item->id);
-        $this->assertEquals($discussion->type, $item->type);
+        $this->assertEquals($discussion->id, $item->id, 'Requesting an existing discussion retrieves an incorrect result.');
+        $this->assertEquals($discussion->type, $item->type, 'Requesting an existing discussion retrieves an incorrect resource type.');
 
         $cached = Flarum::getCache()->get($discussion->id, null, $discussion->type);
 
-        $this->assertNotNull($cached);
-        $this->assertEquals($discussion->id, $cached->id);
+        $this->assertNotNull($cached, 'Discussion was not automtically persisted to global store.');
+        $this->assertEquals($discussion->id, $cached->id, 'The wrong discussion was stored into cache.');
+
+        $this->assertNotNull($discussion->title);
+        $this->assertNotNull($discussion->slug);
+
+        $this->assertNotNull($discussion->tags, 'The relation tags should be set on a discussion.');
+        $this->assertGreaterThan(0, count($discussion->tags), 'Discussions usually have at least one tag.');
+
+        $this->assertNotNull($discussion->startPost, 'A discussion has a start pots.');
+
     }
 }

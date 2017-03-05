@@ -15,6 +15,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->flarum = new Flarum('https://discuss.flarum.org');
+        $this->flarum = new Flarum(getenv('FLARUM_HOST_TESTING') ?? 'https://discuss.flarum.org');
     }
 }
