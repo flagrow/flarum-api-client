@@ -13,6 +13,10 @@ class Factory
     {
         $body = $response->getBody();
 
+        if ($response->getStatusCode() === 204) {
+            return true;
+        }
+
         if (empty($body)) {
             return null;
         }
@@ -28,7 +32,7 @@ class Factory
         }
 
         // Collection, paginated
-        if (!array_key_exists('type', $data)) {
+        if ($data && !array_key_exists('type', $data)) {
             return (new Collection($data))->cache();
         }
 

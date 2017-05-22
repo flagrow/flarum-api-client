@@ -2,7 +2,9 @@
 
 namespace Flagrow\Flarum\Api\Models;
 
+use Flagrow\Flarum\Api\Exceptions\InvalidArgumentException;
 use Flagrow\Flarum\Api\Flarum;
+use Flagrow\Flarum\Api\Fluent;
 use Flagrow\Flarum\Api\Resource\Item;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -24,7 +26,28 @@ abstract class Model
 
     public function __construct(array $attributes = [])
     {
+        if (Arr::has($attributes, 'id')) {
+            $this->id = Arr::pluck($attributes, 'id');
+        }
+
         $this->attributes = $attributes;
+    }
+
+    public static function fromResource(Item $item)
+    {
+        $class = sprintf("%s\\%s", __NAMESPACE__, Str::camel(Str::singular($item->type)));
+
+        if (class_exists($class)) {
+            $response = new $class($item->attributes);
+
+            if ($item->id) {
+                $response->id = $item->id;
+            }
+
+            return $response;
+        }
+
+        throw new InvalidArgumentException("Resource type {$item->type} could not be migrated to Model");
     }
 
     /**
@@ -77,15 +100,58 @@ abstract class Model
     }
 
     /**
-     * Create or update.
+     * @param Model $relation
+     */
+    public function addRelation($relation)
+    {
+
+    }
+
+    /**
+     * @return Fluent
+     */
+    public function baseRequest(): Fluent
+    {
+        // Set resource type.
+        $dispatch = call_user_func_array([
+            static::$dispatcher,
+            $this->type()
+        ], []);
+
+        // Set resource Id.
+        if ($this->id) {
+            $dispatch->id($this->id);
+        }
+
+        return $dispatch;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function delete()
+    {
+        if (!$this->id) {
+            throw new InvalidArgumentException("Resource doesn't exist.");
+        }
+
+        return $this->baseRequest()->delete()->request();
+    }
+
+    /**
+     * Creates or updates a resource.
+     *
+     * @return mixed
      */
     public function save()
     {
-        return static::$dispatcher
-            ->{$this->type()}()
+        return $this->baseRequest()
+            // Set method and variables.
             ->post(
-            $this->item()->toArray()
-        )->request();
+                $this->item()->toArray()
+            )
+            // Send request.
+            ->request();
     }
 
     /**

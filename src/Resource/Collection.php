@@ -2,8 +2,6 @@
 
 namespace Flagrow\Flarum\Api\Resource;
 
-use Flagrow\Flarum\Api\Cache;
-use Flagrow\Flarum\Api\Flarum;
 use Illuminate\Support\Collection as Collect;
 
 class Collection extends Resource

@@ -2,12 +2,13 @@
 
 namespace Flagrow\Flarum\Api\Resource;
 
-use Flagrow\Flarum\Api\Flarum;
+use Flagrow\Flarum\Api\Traits\HasRelationships;
+use Flagrow\Flarum\Api\Traits\UsesCache;
 use Illuminate\Support\Arr;
 
 class Item extends Resource
 {
-
+    use HasRelationships, UsesCache;
     /**
      * @var string
      */
@@ -23,11 +24,6 @@ class Item extends Resource
      */
     public $attributes = [];
 
-    /**
-     * @var array
-     */
-    public $relationships = [];
-
     public function __construct(array $item = [])
     {
         $this->id = (int) Arr::get($item, 'id');
@@ -35,53 +31,6 @@ class Item extends Resource
         $this->attributes = Arr::get($item, 'attributes', []);
 
         $this->relations(Arr::get($item, 'relationships', []));
-    }
-
-    /**
-     * @return Item
-     */
-    public function cache(): Item
-    {
-        Flarum::getCache()->set($this->id, $this, $this->type);
-
-        return $this;
-    }
-
-    /**
-     * @param array $relations
-     */
-    protected function relations(array $relations = [])
-    {
-        foreach ($relations as $attribute => $relation) {
-            $data = Arr::get($relation, 'data');
-
-            if (Arr::get($data, 'type')) {
-                $this->relationships[$attribute] = $this->parseRelationshipItem(
-                    Arr::get($data, 'type'),
-                    Arr::get($data, 'id')
-                );
-            } else {
-                $this->relationships[$attribute] = [];
-
-                foreach ($data as $item) {
-                    $id = (int) Arr::get($item, 'id');
-                    $this->relationships[$attribute][$id] = $this->parseRelationshipItem(
-                        Arr::get($item, 'type'),
-                        $id
-                    );
-                }
-            }
-        }
-    }
-
-    /**
-     * @param string $type
-     * @param int $id
-     * @return Item|null
-     */
-    protected function parseRelationshipItem(string $type, int $id)
-    {
-        return Flarum::getCache()->get($id, null, $type);
     }
 
     /**

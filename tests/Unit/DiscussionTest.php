@@ -4,6 +4,7 @@ namespace Flagrow\Flarum\Api\Tests\Unit;
 
 use Flagrow\Flarum\Api\Flarum;
 use Flagrow\Flarum\Api\Models\Discussion;
+use Flagrow\Flarum\Api\Models\Model;
 use Flagrow\Flarum\Api\Resource\Collection;
 use Flagrow\Flarum\Api\Resource\Item;
 use Flagrow\Flarum\Api\Tests\TestCase;
@@ -75,5 +76,28 @@ class DiscussionTest extends TestCase
         $this->assertEquals($discussion->title, $resource->title);
         $this->assertNotEmpty($resource->startPost);
         $this->assertEquals($discussion->content, $resource->startPost->content);
+
+        return $resource;
+    }
+
+    /**
+     * @test
+     * @depends createsDiscussions
+     * @param Item $resource
+     */
+    public function deletesDiscussions(Item $resource)
+    {
+        if (! $this->flarum->isAuthorized()) {
+            $this->markTestSkipped('No authentication set.');
+        }
+
+        $discussion = Discussion::fromResource($resource);
+        $model = Model::fromResource($resource);
+
+        // Resolve the same instance.
+        $this->assertEquals($discussion, $model);
+
+        // See if we can delete things.
+        $this->assertTrue($discussion->delete());
     }
 }

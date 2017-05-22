@@ -36,7 +36,7 @@ $api = new Flarum('http://example.com');
 // A collection of discussions from the first page of your Forum index.
 $discussions = $api->discussions()->request();
 // Read a specific discussion.
-$discussion = $api->discussion(1)->request();
+$discussion = $api->discussions()->id(1)->request();
 // Read the first page of users.
 $users = $api->users()->request();
 ```
