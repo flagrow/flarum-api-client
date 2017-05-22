@@ -97,4 +97,14 @@ class Item extends Resource
             return Arr::get($this->relationships, $name);
         }
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'attributes' => $this->attributes,
+            'relationships' => $this->relationships
+        ];
+    }
 }

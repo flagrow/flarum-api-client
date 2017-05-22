@@ -104,7 +104,7 @@ class Flarum
 
         if ($token) {
             $this->authorized = true;
-            Arr::set($headers, 'Authorization', "$token");
+            Arr::set($headers, 'Authorization', "Token $token");
         }
 
         return $headers;
@@ -125,13 +125,17 @@ class Flarum
     {
         $variables = $this->fluent->getVariables();
 
+        if (empty($variables)) {
+            return [];
+        }
+
         switch ($this->fluent->getMethod()) {
             case 'get':
                 return $variables;
                 break;
             default:
                 return [
-                    'json' => $variables
+                    'json' => ['data' => $variables]
                 ];
         }
     }

@@ -103,7 +103,11 @@ class Fluent
      */
     public function setVariables(array $variables = [])
     {
-        $this->variables = $variables;
+        if (count($variables) === 1 && is_array($variables[0])) {
+            $this->variables = $variables[0];
+        } else {
+            $this->variables = $variables;
+        }
 
         return $this;
     }

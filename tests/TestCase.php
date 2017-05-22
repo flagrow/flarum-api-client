@@ -3,6 +3,7 @@
 namespace Flagrow\Flarum\Api\Tests;
 
 use Flagrow\Flarum\Api\Flarum;
+use Flagrow\Flarum\Api\Models\Model;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -15,6 +16,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->flarum = new Flarum(getenv('FLARUM_HOST_TESTING') ?? 'https://discuss.flarum.org');
+        $token = getenv('FLARUM_TOKEN');
+
+        $this->flarum = new Flarum(
+            getenv('FLARUM_HOST') ?? 'https://discuss.flarum.org',
+            $token ? compact('token') : []
+        );
+
+        Model::setDispatcher($this->flarum);
     }
 }
