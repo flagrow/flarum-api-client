@@ -12,6 +12,7 @@ class Fluent
     protected $types = [
         'discussions',
         'users',
+        'groups'
     ];
 
     protected $methods = [
