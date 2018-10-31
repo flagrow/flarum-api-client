@@ -70,12 +70,14 @@ class Flarum
         $method = $this->fluent->getMethod();
 
         /** @var ResponseInterface $response */
-        $response = $this->rest->{$method}((string)$this->fluent, $this->getVariablesForMethod());
-
-        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+        try {
+            $response = $this->rest->{$method}((string)$this->fluent, $this->getVariablesForMethod());
+        } finally {
             // Reset the fluent builder for a new request.
             $this->fluent->reset();
+        }
 
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return Factory::build($response);
         }
     }
