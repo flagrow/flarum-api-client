@@ -11,11 +11,11 @@ class Factory
 {
     public static function build(ResponseInterface $response)
     {
-        $body = $response->getBody();
-
         if ($response->getStatusCode() === 204) {
             return true;
         }
+
+        $body = $response->getBody()->getContents();
 
         if (empty($body)) {
             return null;
@@ -35,7 +35,7 @@ class Factory
         if ($data && !array_key_exists('type', $data)) {
             return (new Collection($data))->cache();
         }
-
+        
         return (new Item($data))->cache();
     }
 }
