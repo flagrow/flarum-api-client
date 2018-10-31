@@ -68,6 +68,17 @@ class Fluent
         $this->flarum = $flarum;
     }
 
+    public function reset()
+    {
+        $this->segments = [];
+        $this->includes = [];
+        $this->query = [];
+        $this->variables = [];
+        $this->method = 'get';
+        
+        return $this;
+    }
+
     /**
      * @param string $type
      * @return Fluent
