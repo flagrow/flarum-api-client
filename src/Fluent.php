@@ -4,6 +4,22 @@ namespace Flagrow\Flarum\Api;
 
 use Flagrow\Flarum\Api\Exceptions\UnauthorizedRequestMethodException;
 
+/**
+ * Class Fluent
+ * @package Flagrow\Flarum\Api
+ *
+ * @method Fluent discussions
+ * @method Fluent groups
+ * @method Fluent users
+ * @method Fluent tags
+ *
+ * @method Fluent get
+ * @method Fluent head
+ * @method Fluent post(array $variables = [])
+ * @method Fluent put(array $variables = [])
+ * @method Fluent patch(array $variables = [])
+ * @method Fluent delete
+ */
 class Fluent
 {
     /**
