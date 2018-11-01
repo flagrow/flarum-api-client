@@ -8,6 +8,11 @@ use Illuminate\Cache\ArrayStore;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class Flarum
+ * @package Flagrow\Flarum\Api
+ * @mixin Fluent
+ */
 class Flarum
 {
     /**
