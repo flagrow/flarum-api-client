@@ -12,7 +12,8 @@ class Fluent
     protected $types = [
         'discussions',
         'users',
-        'groups'
+        'groups',
+        'tags'
     ];
 
     protected $methods = [
@@ -79,13 +80,16 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @param string $type
-     * @return Fluent
-     */
     protected function handleType(string $type): Fluent
     {
         $this->segments[] = $type;
+
+        return $this;
+    }
+
+    public function setPath(string $path): Fluent
+    {
+        $this->segments = [$path];
 
         return $this;
     }
@@ -109,10 +113,6 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @param array $variables
-     * @return $this
-     */
     public function setVariables(array $variables = [])
     {
         if (count($variables) === 1 && is_array($variables[0])) {
@@ -124,27 +124,16 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @return array
-     */
     public function getVariables(): array
     {
         return $this->variables;
     }
 
-    /**
-     * @param string $type
-     * @param $value
-     * @return $this
-     */
     protected function handlePagination(string $type, $value)
     {
         $this->query[$type] = $value;
@@ -152,10 +141,6 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @param $id
-     * @return Fluent
-     */
     public function id(int $id): Fluent
     {
         $this->segments[] = $id;
@@ -163,10 +148,6 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @param string $include
-     * @return Fluent
-     */
     public function include(string $include): Fluent
     {
         $this->includes[] = $include;
@@ -174,10 +155,6 @@ class Fluent
         return $this;
     }
 
-    /**
-     * @param int $number
-     * @return Fluent
-     */
     public function offset(int $number): Fluent
     {
         return $this->handlePagination('page[offset]', $number);
