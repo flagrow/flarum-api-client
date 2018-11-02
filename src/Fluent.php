@@ -8,10 +8,10 @@ use Flagrow\Flarum\Api\Exceptions\UnauthorizedRequestMethodException;
  * Class Fluent
  * @package Flagrow\Flarum\Api
  *
- * @method Fluent discussions
- * @method Fluent groups
- * @method Fluent users
- * @method Fluent tags
+ * @method Fluent discussions(string|int|null $id)
+ * @method Fluent groups(string|int|null $id)
+ * @method Fluent users(string|int|null $id)
+ * @method Fluent tags(string|int|null $id)
  *
  * @method Fluent get
  * @method Fluent head
