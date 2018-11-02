@@ -135,6 +135,15 @@ class Fluent
 
     public function setVariables(array $variables = [])
     {
+        if (isset($variables['relationships'])) {
+            foreach ($variables['relationships'] as $relation => $relationship) {
+                if (! array_get($relationship, 'data')) {
+                    unset($variables['relationships'][$relation]);
+                    $variables['relationships'][$relation]['data'] = $relationship;
+                }
+            }
+        }
+
         if (count($variables) === 1 && is_array($variables[0])) {
             $this->variables = $variables[0];
         } else {
