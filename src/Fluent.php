@@ -96,9 +96,13 @@ class Fluent
         return $this;
     }
 
-    protected function handleType(string $type): Fluent
+    protected function handleType(string $type, $id): Fluent
     {
         $this->segments[] = $type;
+
+        if ($id) {
+            $this->segments[] = $id;
+        }
 
         return $this;
     }
@@ -215,8 +219,8 @@ class Fluent
             return $this->setMethod($name, $arguments);
         }
 
-        if (count($arguments) === 0 && in_array($name, $this->types)) {
-            return $this->handleType($name);
+        if (count($arguments) <= 1 && in_array($name, $this->types)) {
+            return $this->handleType($name, $arguments[0] ?? null);
         }
 
         if (in_array($name, $this->pagination) && count($arguments) === 1) {
