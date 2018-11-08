@@ -59,17 +59,11 @@ class Flarum
         static::$cache = new Cache(new ArrayStore);
     }
 
-    /**
-     * @return Cache
-     */
     public static function getCache(): Cache
     {
         return self::$cache;
     }
 
-    /**
-     * @return null
-     */
     public function request()
     {
         $method = $this->fluent->getMethod();
@@ -87,10 +81,6 @@ class Flarum
         }
     }
 
-    /**
-     * @param array $authorization
-     * @return array
-     */
     protected function requestHeaders(array $authorization = [])
     {
         $headers = [
@@ -108,17 +98,11 @@ class Flarum
         return $headers;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     function __call($name, $arguments)
     {
         return call_user_func_array([$this->fluent, $name], $arguments);
     }
 
-    /**
-     * @return array
-     */
     protected function getVariablesForMethod(): array
     {
         $variables = $this->fluent->getVariables();
@@ -138,35 +122,27 @@ class Flarum
         }
     }
 
-    /**
-     * @return Fluent
-     */
     public function getFluent(): Fluent
     {
         return $this->fluent;
     }
+    
+    public function getRest(): Guzzle
+    {
+        return $this->rest;
+    }
 
-    /**
-     * @param bool $strict
-     * @return Flarum
-     */
     public function setStrict(bool $strict): Flarum
     {
         $this->strict = $strict;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isStrict(): bool
     {
         return $this->strict;
     }
 
-    /**
-     * @return bool
-     */
     public function isAuthorized(): bool
     {
         return $this->authorized;
